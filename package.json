@@ -1,7 +1,12 @@
 {
 	"name": "streaming-pgn-parser",
 	"version": "0.0.1",
-	"description": "Read Portable Game Notation (PGN) files.",
+	"description": "Read (huge) collections of chess games in Portable Game Notation (PGN).",
+	"keywords": [
+		"pgn",
+		"chess",
+		"parser"
+	],
 	"main": "dist/index.js",
 	"files": [
 		"dist"
@@ -53,7 +58,6 @@
 			"eslint"
 		]
 	},
-	"keywords": [],
 	"author": "",
 	"license": "WTFPL",
 	"packageManager": "pnpm@10.18.3",
@@ -72,5 +76,8 @@
 		"ts-jest": "^29.4.6",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.48.1"
+	},
+	"engines": {
+		"node": ">=18"
 	}
 }
