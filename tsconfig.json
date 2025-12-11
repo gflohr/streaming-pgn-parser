@@ -1,0 +1,12 @@
+{
+	"extends": "@tsconfig/recommended",
+	"compilerOptions": {
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"declaration": false,
+		"outDir": "dist",
+		"sourceMap": true
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist"]
+}
