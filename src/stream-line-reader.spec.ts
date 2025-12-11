@@ -55,4 +55,16 @@ describe('StreamLineReader', () => {
 
 		await reader.close();
 	});
+
+	it('strips a BOM at the beginning', async () => {
+		const BOM = '\uFEFF';
+		const stream = stringToStream(BOM + 'line1\nline2\n');
+		const reader = new StreamLineReader(stream);
+
+		expect(await reader.readLine()).toBe('line1');
+		expect(await reader.readLine()).toBe('line2');
+		expect(await reader.readLine()).toBeNull();
+
+		await reader.close();
+	});
 });
