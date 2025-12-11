@@ -1,3 +1,5 @@
+import { StreamLineReader } from "./stream-line-reader";
+
 const NAG_NULL = 0;
 
 /**
@@ -110,21 +112,25 @@ const ARROWS_REGEX = new RegExp(
 );
 
 export class Parser {
-	private stream: ReadableStream<Uint8Array>;
+	private lineReader: StreamLineReader;
 
 	constructor(input: string | Uint8Array | ReadableStream<Uint8Array>) {
+		let stream: ReadableStream<Uint8Array>;
+
 		if (typeof input === 'string') {
 			const bytes = new TextEncoder().encode(input);
-			this.stream = Parser.fromUint8Array(bytes);
+			stream = Parser.fromUint8Array(bytes);
 		} else if (input instanceof Uint8Array) {
-			this.stream = Parser.fromUint8Array(input);
+			stream = Parser.fromUint8Array(input);
 		} else if (Parser.isReadableStream(input)) {
-			this.stream = input;
+			stream = input;
 		} else {
 			throw new Error(
 				'Parser input must be a string, a Uint8Array, or a ReadableStream<Uint8Array>',
 			);
 		}
+
+		this.lineReader = new StreamLineReader(stream);
 	}
 
 	private static fromUint8Array(data: Uint8Array): ReadableStream<Uint8Array> {
