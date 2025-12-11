@@ -111,9 +111,19 @@ const ARROWS_REGEX = new RegExp(
 		'(?<suffix>\\s?)',
 );
 
+const EMPTY_REGEX = /^\s*$/;
+
+/**
+ * A parser for (chess) games in the Portable Game Notation (PGN).
+ */
 export class Parser {
 	private lineReader: StreamLineReader;
 
+	/**
+	 * Instantiate a PGN parser.
+	 *
+	 * @param input a string, an array of unsigned integers, or a readable stream
+	 */
 	constructor(input: string | Uint8Array | ReadableStream<Uint8Array>) {
 		let stream: ReadableStream<Uint8Array>;
 
@@ -151,5 +161,16 @@ export class Parser {
 			Object.prototype.hasOwnProperty.call(obj, 'getReader') &&
 			typeof obj['getReader'] === 'function'
 		);
+	}
+
+	/**
+	 * Reads the next game.
+	 */
+	public async readGame() {
+		// Eat leading garbage.
+		let line = await this.lineReader.readLine();
+		while (line.startsWith(';') || line.startsWith('%') || line.match(EMPTY_REGEX)) {
+			line = await this.lineReader.readLine();
+		}
 	}
 }

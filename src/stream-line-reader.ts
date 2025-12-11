@@ -37,7 +37,7 @@ export class StreamLineReader {
 
 			let chunk = this.decoder.decode(value, { stream: true });
 
-			// strip BOM if present in the first chunk
+			// Strip BOM if present in the first chunk.
 			if (this.firstChunk) {
 				this.firstChunk = false;
 				if (chunk.startsWith('\uFEFF')) {
